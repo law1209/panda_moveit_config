@@ -20,10 +20,11 @@
 
   <!-- Choose controller manager: fake, simple, or ros_control -->
   <arg name="moveit_controller_manager" default="fake" />
+
   <!-- Set execution mode for fake execution controllers -->
-  <arg name="fake_execution_type" default="interpolate" />
-  <!-- Transmission used for joint control: position, velocity, or effort -->
-  <arg name="transmission" />
+  <arg name="fake_execution_type" default="interpolate" /> <!-- not used here -->
+  <!-- Transmission used for joint control: position, velocity, or effort --> <!-- not used here -->
+  <arg name="transmission"  default="effort"/> 
 
   <!-- By default, hide joint_state_publisher's GUI in 'fake' controller_manager mode -->
   <arg name="use_gui" default="false" />
@@ -33,6 +34,8 @@
 
   <!-- If needed, broadcast static tf for robot root -->
   <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0 0 0 0 0 0 world $(arg arm_id)_link0" />
+
+
 
 
 
@@ -51,6 +54,10 @@
     <!-- Given the published joint states, publish tf for the robot links -->
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
   </group>
+
+
+
+
 
   <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
   <include file="$(dirname)/move_group.launch" pass_all_args="true">
